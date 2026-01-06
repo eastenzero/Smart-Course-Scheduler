@@ -1,0 +1,27 @@
+# backend
+/backend/target/
+
+# frontend
+/frontend/node_modules/
+/frontend/dist/
+/frontend/.vite/
+
+# python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# env
+.env
+.env.*
+
+# ide/editor
+.idea/
+.vscode/
+*.iml
+
+# os
+.DS_Store
+
+# logs
+*.log

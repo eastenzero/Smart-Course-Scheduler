@@ -1,0 +1,24 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    # 如本机 PostgreSQL 账号/密码不同，请修改以下配置
+    url: jdbc:postgresql://localhost:5432/smart_course_scheduler
+    username: postgres
+    password: password
+    driver-class-name: org.postgresql.Driver
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+timefold:
+  solver:
+    termination:
+      spent-limit: 5s
