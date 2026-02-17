@@ -7,9 +7,41 @@ A **Timefold-powered smart course scheduling system** — takes a set of courses
 
 ---
 
-## Functional Preview
+## UI Preview (V2)
 
-![Functional Preview](screenshots/preview.webp)
+| Dashboard | Setup |
+|:---------:|:-----:|
+| ![Dashboard](screenshots/ui-v2/dashboard.png) | ![Setup](screenshots/ui-v2/setup.png) |
+
+| Admin | Mobile |
+|:-----:|:------:|
+| ![Admin](screenshots/ui-v2/admin.png) | ![Mobile](screenshots/ui-v2/dashboard-mobile.png) |
+
+---
+
+## Frontend V2 精修说明
+
+本次 V2 前端精修聚焦 **可读性与布局质量**，范围仅限前端 CSS / Vue 组件，后端逻辑零改动。
+
+### 本次范围
+
+| 文件 | 改动 |
+|------|------|
+| `style.css` | 全新设计系统：5 级字号 (12/14/16/20/28px)、高对比文本、3 级阴影、移除玻璃效果 |
+| `App.vue` | 侧边栏改为实色背景 (#F9FAFB)、240px 固定宽度、增大导航间距 |
+| `DashboardView.vue` | 移除渐变 Hero、统计卡改为实色、空态居中 + CTA 按钮 |
+| `SetupView.vue` | 表单卡实色化、两栏布局、约束空态带引导文案 |
+| `AdminView.vue` | 搜索栏实色化、空态文案加深、表头中性背景 |
+| `ScheduleGrid.vue` | 字号 ≥12px、移除 hover 缩放、tooltip 实色化 |
+| `main.ts` | 补回 `import './style.css'`（此前漏引导致设计系统未生效） |
+
+### 核心改动点
+
+- **去玻璃化** — 全部 `glass-card` 替换为 `surface-card`（白色实背景 + border）
+- **字号体系** — 12 / 14 / 16 / 20 / 28px（适配中文阅读）
+- **对比度** — 主文本 `#1E293B`、次文本 `#475569`，均 ≥ 4.5:1
+- **布局** — 侧边栏 240px，内容区最大 1200px，padding 32px
+- **空态设计** — 每页都有 icon + 标题 + 描述文案 + 操作按钮
 
 ---
 
@@ -19,7 +51,7 @@ A **Timefold-powered smart course scheduling system** — takes a set of courses
 |------------|----------|-------|
 | JDK        | 17+      | Required |
 | Maven      | 3.8+     | Required |
-| Node.js    | 18+ LTS  | 18 or 20 LTS recommended |
+| Node.js    | **≥ 20.19** 或 22.12+ | ⚠️ V2 前端需要 Node 20+ |
 | PostgreSQL | 14+      | Only for production mode; H2 mode needs no DB |
 
 ---
@@ -43,6 +75,13 @@ npm install   # first time only
 npm run dev -- --port 15173 --host
 ```
 - Frontend: `http://localhost:15173`
+
+### 3) Build Frontend (Production)
+```bash
+cd frontend
+npm run build        # TypeScript check + Vite production bundle
+npx serve dist       # Preview production build
+```
 
 ---
 
@@ -138,9 +177,18 @@ Smart-Course-Scheduler/
 ├── backend/          # Spring Boot + Timefold + Flyway
 ├── frontend/         # Vue 3 + Element Plus
 ├── _team_sync/       # SSOT docs (schema, API, constants, verification)
-├── screenshots/      # UI preview images
+├── screenshots/
+│   └── ui-v2/        # V2 UI screenshots (Dashboard, Setup, Admin, Mobile)
 └── README.md
 ```
+
+---
+
+## Known Limitations
+
+- **后端离线仅空态** — 前端可独立启动，但无后端时所有页面显示空态数据
+- **Bundle 体积偏大** — JS bundle ~1076 kB (gzip ~354 kB)，Element Plus 全量引入导致；后续可按需引入优化
+- **Vite config 代理** — `vite.config.ts` 中 `/api` 代理到后端地址，H2 模式下需确认端口匹配 (18081)
 
 ---
 
